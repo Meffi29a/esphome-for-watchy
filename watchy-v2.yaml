@@ -12,8 +12,8 @@ substitutions:
   MODE_TIMERS: "1"
   MODE_MENU: "2"
   MODE_QR: "3"
-  BUZZER_DURATION_1: "125"
-  BUZZER_DURATION_2: "200"
+  BUZZER_DURATION_1: "125ms"
+  BUZZER_DURATION_2: "200ms"
   MODE_AGENDA: "4"
   MODE_DEVICE_INFO: "5"
   AGENDA_REMINDER_1: "60" # min
@@ -110,7 +110,7 @@ esphome:
             lambda: return id(chime) && !id(alarm_buzzing);
           then:
             - switch.turn_on: buzzer
-            - delay: BUZZER_DURATION_1
+            - delay: $BUZZER_DURATION_1
             - switch.turn_off: buzzer
 
 display:
@@ -1007,8 +1007,9 @@ wifi:
   id: wi_fi
   power_save_mode: HIGH
   enable_on_boot: false
-  ssid: $WIFI_SSID
-  password: $WIFI_PASSWORD
+  ssid: !secret WIFI_SSID_1
+  password: !secret WIFI_PASSWORD_1
+  use_address: !secret WATCHY_IP
   fast_connect: true
   reboot_timeout: 0s
   on_connect:
@@ -1083,11 +1084,11 @@ script:
             lambda: return id(alarm_buzzing);
           then:
             - switch.turn_on: buzzer
-            - delay: BUZZER_DURATION_1
+            - delay: $BUZZER_DURATION_1    
             - switch.turn_off: buzzer
-            - delay: BUZZER_DURATION_2
+            - delay: $BUZZER_DURATION_2    
             - switch.turn_on: buzzer
-            - delay: BUZZER_DURATION_1
+            - delay: $BUZZER_DURATION_1    
             - switch.turn_off: buzzer
 
   - id: parse_agenda
@@ -1362,14 +1363,14 @@ font:
     # file: "gfonts://Inter@400"
     # file: "gfonts://Atkinson+Hyperlegible@400"
     size: 16
-    glyphs: "+@[]<>().,:°'’!?-/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
-      abcdefghijklmnopqrstuvwxyz"
+    glyphs: "+@[]<>().,:°'’!?-/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖ
+      abcdefghijklmnopqrstuvwxyzäö"
     bpp: 2
 
   - id: date_font
     file: "fonts/Futura Bold/Futura Bold.otf"
     size: 28
-    glyphs: "!:°'-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+    glyphs: "!:°'-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖ abcdefghijklmnopqrstuvwxyzäö"
     bpp: 2
 
   - id: time_font
